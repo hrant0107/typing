@@ -1,38 +1,156 @@
 .App {
-  text-align: center;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+a {
+  text-decoration: none;
+  color: inherit;
+}
+.container {
+  max-width: 1300px;
+  padding: 15px;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+.wordsContainer {
+  max-width: 600px;
+  border: 1px solid greenyellow;
+  margin: 50px auto;
+  border-radius: 12px;
+  font-size: 24px;
+  padding: 30px;
+  text-align: left;
+  background: white;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+.inputContent {
+  display: flex;
+  justify-content: center;
+}
+
+.textArea {
+  width: 80%;
+  font-size: 28px;
+  height: 200px;
+  padding: 20px;
+  border: 1px solid greenyellow;
+  border-radius: 12px;
+  outline: none;
+  resize: none;
+}
+
+.textArea:disabled {
+  cursor: no-drop;
+}
+
+.wrong {
+  background-color: rgb(224, 36, 36);
+}
+
+.exact {
+  background-color: rgb(35, 169, 35);
+}
+
+.startBtnBlock {
+  display: flex;
+  justify-content: center;
+  margin: 10px auto;
+}
+.startBtn {
+  background-color: rgb(143, 236, 4);
+  padding: 20px 30px;
+  font-size: 22px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  font-weight: 400;
+}
+
+.taimerCount {
+  color: rgb(35, 169, 35);
+  font-size: 42px;
+  display: flex;
+  justify-content: center;
+}
+
+.resultBlock {
+  padding: 30px 180px;
+  display: flex;
+  align-items: center;
+  gap: 30px;
+}
+
+.block {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 10px;
+  border: 1px solid #adff2f;
+  border-radius: 12px;
+}
+.wrongs__block {
+  max-width: 150px;
+}
+
+.first {
+  color: rgb(232, 57, 92);
+  font-size: 28px;
+}
+
+.second {
+  color: rgb(224, 36, 36);
+  font-size: 48px;
+}
+
+.nextLevelBtn {
+  background: #71b707;
+  color: black;
+  border-radius: 16px;
+  border: none;
+  padding: 18px;
+  font-size: 22px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+}
+.levelBlock {
   display: flex;
   flex-direction: column;
-  align-items: center;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+  align-items: center;
+  width: 200px;
+  padding: 20px;
+  gap: 10px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  background-color: rgba(255, 255, 255, 0.7);
+  box-shadow: 0 1px 4px 0 rgb(0 0 0 / 37%);
+  border-radius: 3px;
+}
+.levelBlock:hover {
+  box-shadow: 0 2px 18px 0 rgba(0, 0, 0, 0.37);
+  border-radius: 3px;
+}
+.level__acurancy__block {
+  border: none;
 }
 
-.App-link {
-  color: #61dafb;
+.name {
+  font-size: 20px;
+}
+.procent {
+  font-size: 32px;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.levelTitle {
+  font-size: 20px;
+}
+
+.levels__container {
+  display: flex;
+  gap: 50px;
+  align-items: center;
+  flex-wrap: wrap;
 }

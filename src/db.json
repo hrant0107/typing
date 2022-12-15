@@ -1,0 +1,39 @@
+[
+    {
+      "id": 1,
+      "image": [0,1],
+      "title": "Level 1",
+      "accurancy": 100,
+      "time":20,
+      "quantity":3
+    },
+    {
+        "id": 2,
+        "image": [0,1],
+        "title": "Level 2",
+        "accurancy": 0,
+        "time":18,
+        "quantity":4
+
+      },
+      {
+        "id": 3,
+        "image": [0,1],
+        "title": "Level 3",
+        "accurancy": 0,
+        "time":15,
+        "quantity":5
+
+      },
+      {
+        "id": 4,
+        "image": [0,1],
+        "title": "Level 4",
+        "accurancy": 0,
+        "time":12,
+        "quantity":6
+
+      }
+  ]
+
+  
