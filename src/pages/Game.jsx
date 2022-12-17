@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import randomWords from "random-words";
 import "../App.css";
 import TypingInput from "../components/game/TypingInput";
@@ -8,8 +8,9 @@ import Taimer from "../components/game/Taimer";
 import Result from "../components/game/Result";
 import { useParams } from "react-router-dom";
 import levels from "../db.json";
+import { useNavigate } from "react-router-dom";
 
-function Game() {
+function Game({ addLevelDataToUserData, userData }) {
   let { id } = useParams();
   const [data, setData] = useState({});
   const [value, setValue] = useState("");
@@ -20,10 +21,31 @@ function Game() {
   const [countWrongs, setCountWrongs] = useState(0);
   const inputRef = useRef();
   const taimerRef = useRef({});
+
+  const navigate = useNavigate();
   // const time = data.time;
 
+  // const prevLevelUserData = useMemo(
+  //   () => userData.find((item) => item.prevId === id - 1),
+  //   [userData, id]
+  // );
+  // console.log(prevLevelUserData);
+
+  const accurancy = useMemo(() => {
+    if (countWrongs === 0) {
+      return 0;
+    }
+    const acc = (countWrongs * 100) / words.length;
+    return acc.toFixed(0);
+  }, [countWrongs, words.length]);
+
   useEffect(() => {
-    setData(levels.filter((obj) => obj.id === +id));
+    const prevLevelData = userData.find((item) => item.id === `${id - 1}`);
+    console.log(prevLevelData, id);
+    if ((!prevLevelData || prevLevelData.accurancy < 90) && id !== "1") {
+      return navigate("/");
+    }
+    setData(levels.filter((obj) => obj.id === id));
     setValue("");
     setWords("");
     setIsStart(false);
@@ -40,6 +62,14 @@ function Game() {
       setWords(randomWords(0));
     }
   }, [data]);
+
+  const updateUserData = (newAccuracy = accurancy) => {
+    addLevelDataToUserData({
+      accurancy: 100 - newAccuracy,
+      lock: true,
+      id: id,
+    });
+  };
 
   const getClassName = (leter, i) => {
     if (value[i] === undefined) {
@@ -60,6 +90,7 @@ function Game() {
       setValue("");
       setCountWrongs(0);
     }
+    setCountWrongs(0);
     setIsStart(true);
     setHasTaimer(hasTaimer + 1);
 
@@ -69,10 +100,13 @@ function Game() {
   };
 
   const handleInputChange = (value) => {
-    setCountWrongs([...value].filter((item, i) => words[i] !== item).length);
+    const wrongs = [...value].filter((item, i) => words[i] !== item).length;
+    setCountWrongs(wrongs);
     setValue(value);
 
     if (value.length >= words.length) {
+      const newAccuracy = ((wrongs * 100) / words.length || 0).toFixed(0);
+      updateUserData(newAccuracy);
       setIsStart(false);
       setIsShowResult(true);
     }
@@ -85,11 +119,6 @@ function Game() {
     setIsShowResult(false);
   };
 
-  const accurancy = useCallback(() => {
-    console.log("hii");
-    return ((countWrongs * 100) / words.length).toFixed(0);
-  }, [countWrongs]);
-
   return (
     <div className="App">
       <Words getClassName={getClassName} words={words} />
@@ -100,6 +129,7 @@ function Game() {
           dontShowResult={dontShowResult}
           showResult={showResult}
           taimerRef={taimerRef}
+          updateUserData={updateUserData}
         />
       ) : null}
       <TypingInput

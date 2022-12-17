@@ -2,7 +2,13 @@ import React, { useEffect, useState } from "react";
 
 let id;
 
-const Taimer = ({ setIsStart, dontShowResult, showResult, taimerRef }) => {
+const Taimer = ({
+  setIsStart,
+  dontShowResult,
+  showResult,
+  taimerRef,
+  updateUserData,
+}) => {
   const [taimerTime, setTimerTime] = useState(taimerRef.current);
 
   const chagneStart = () => {
@@ -19,6 +25,7 @@ const Taimer = ({ setIsStart, dontShowResult, showResult, taimerRef }) => {
           clearInterval(id);
           dontShowResult();
           chagneStart();
+          updateUserData();
         }
         time--;
       }, 1000);

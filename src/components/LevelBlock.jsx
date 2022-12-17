@@ -1,42 +1,53 @@
-import React from "react";
-import { Link, useParams } from "react-router-dom";
+import React, { useMemo, useState } from "react";
+import { Link } from "react-router-dom";
+import LevelBlockItem from "./LevelBlockItem";
+import ModalForBigLevel from "./ModalForBigLevel";
 
-const LevelBlock = ({ id, title, accurancy }) => {
+const LevelBlock = ({ id, title, prevId, userData }) => {
+  const [showModal, setShowModal] = useState(false);
+
+  const expectedLevelUserData = useMemo(
+    () => userData.find((item) => item.id === id),
+    [userData, id]
+  );
+
+  const prevLevelUserData = useMemo(
+    () => userData.find((item) => item.id === prevId),
+    [userData, prevId]
+  );
+
+  const onClosedLevelClick = () => {
+    setShowModal(true);
+  };
+
+  const onClickCloseModal = () => {
+    setShowModal(false);
+  };
+
   return (
-    <Link to={`game/${id}`}>
-      <div className="levelBlock">
-        <div className="levelTitle">{title}</div>
-        <div className="lock">
-          {id !== 1 ? (
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="75"
-              height="75"
-              fill="currentColor"
-              className="bi bi-lock-fill"
-              viewBox="0 0 16 16"
-            >
-              <path d="M8 1a2 2 0 0 1 2 2v4H6V3a2 2 0 0 1 2-2zm3 6V3a3 3 0 0 0-6 0v4a2 2 0 0 0-2 2v5a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2z" />
-            </svg>
-          ) : (
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="75"
-              height="75"
-              fill="currentColor"
-              className="bi bi-unlock-fill"
-              viewBox="0 0 16 16"
-            >
-              <path d="M11 1a2 2 0 0 0-2 2v4a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V9a2 2 0 0 1 2-2h5V3a3 3 0 0 1 6 0v4a.5.5 0 0 1-1 0V3a2 2 0 0 0-2-2z" />
-            </svg>
-          )}
-        </div>
-        <div className="block level__acurancy__block">
-          <span className="name">accurancy:</span>
-          <span className="procent">{accurancy}%</span>
-        </div>
-      </div>
-    </Link>
+    <>
+      <>
+        {(prevLevelUserData && prevLevelUserData.accurancy > 90) ||
+        id === "1" ? (
+          <Link to={`game/${id}`}>
+            <LevelBlockItem
+              title={title}
+              expectedLevelUserData={expectedLevelUserData}
+              isOpen
+            />
+          </Link>
+        ) : (
+          <LevelBlockItem
+            title={title}
+            onClick={onClosedLevelClick}
+            expectedLevelUserData={expectedLevelUserData}
+          />
+        )}
+      </>
+      {showModal ? (
+        <ModalForBigLevel onClickCloseModal={onClickCloseModal} />
+      ) : null}
+    </>
   );
 };
 

@@ -2,13 +2,13 @@ import React from "react";
 import LevelBlock from "../components/LevelBlock";
 import levels from "../db.json";
 
-const Home = () => {
+const Home = ({ userData }) => {
   return (
     <div className="levels">
       <div className="container">
         <div className="levels__container">
           {levels.map((obj) => {
-            return <LevelBlock key={obj.id} {...obj} />;
+            return <LevelBlock userData={userData} key={obj.id} {...obj} />;
           })}
         </div>
       </div>
