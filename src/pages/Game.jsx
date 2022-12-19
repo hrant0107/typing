@@ -35,8 +35,9 @@ function Game({ addLevelDataToUserData, userData }) {
     if (countWrongs === 0) {
       return 0;
     }
-    const acc = (countWrongs * 100) / words.length;
-    return acc.toFixed(0);
+    const acc = ((countWrongs * 100) / words.length || 0).toFixed(0);
+
+    return acc;
   }, [countWrongs, words.length]);
 
   useEffect(() => {
@@ -100,10 +101,10 @@ function Game({ addLevelDataToUserData, userData }) {
   };
 
   const handleInputChange = (value) => {
-    const wrongs = [...value].filter((item, i) => words[i] !== item).length;
-    setCountWrongs(wrongs);
     setValue(value);
+    const wrongs = [...value].filter((item, i) => words[i] !== item).length;
 
+    setCountWrongs(wrongs);
     if (value.length >= words.length) {
       const newAccuracy = ((wrongs * 100) / words.length || 0).toFixed(0);
       updateUserData(newAccuracy);
@@ -112,11 +113,25 @@ function Game({ addLevelDataToUserData, userData }) {
     }
   };
 
-  const dontShowResult = () => {
-    setIsShowResult(!isShowResult);
-  };
   const showResult = () => {
+    setIsShowResult(true);
+  };
+
+  const dontShowResult = () => {
     setIsShowResult(false);
+  };
+
+  const onTimerEnd = () => {
+    const lastValue = inputRef.current.value;
+    let wrongs = [...lastValue].filter((item, i) => words[i] !== item).length;
+
+    if (lastValue.length < words.length) {
+      wrongs = wrongs + words.length - lastValue.length;
+    }
+    setCountWrongs(wrongs);
+    const newAccuracy = ((wrongs * 100) / words.length || 0).toFixed(0);
+    updateUserData(newAccuracy);
+    setIsStart(false);
   };
 
   return (
@@ -129,7 +144,7 @@ function Game({ addLevelDataToUserData, userData }) {
           dontShowResult={dontShowResult}
           showResult={showResult}
           taimerRef={taimerRef}
-          updateUserData={updateUserData}
+          onTimerEnd={onTimerEnd}
         />
       ) : null}
       <TypingInput
