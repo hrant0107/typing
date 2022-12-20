@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useCallback, useRef } from "react";
 
 const ModalForBigLevel = ({ onClickCloseModal }) => {
   const modalRef = useRef();

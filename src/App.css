@@ -23,7 +23,7 @@ a {
 .wordsContainer {
   max-width: 600px;
   border: 1px solid greenyellow;
-  margin: 50px auto;
+  margin: 10px auto;
   border-radius: 12px;
   font-size: 24px;
   padding: 30px;
@@ -40,7 +40,7 @@ a {
 .textArea {
   width: 80%;
   font-size: 28px;
-  height: 200px;
+  height: 150px;
   padding: 20px;
   border: 1px solid greenyellow;
   border-radius: 12px;
@@ -63,7 +63,7 @@ a {
 .startBtnBlock {
   display: flex;
   justify-content: center;
-  margin: 10px auto;
+  margin: 20px auto;
 }
 .startBtn {
   background-color: rgb(143, 236, 4);
@@ -89,6 +89,7 @@ a {
   padding: 30px 180px;
   display: flex;
   align-items: center;
+  justify-content: center;
   gap: 30px;
 }
 
@@ -131,7 +132,7 @@ a {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  width: 200px;
+  width: 190px;
   padding: 20px;
   gap: 10px;
   cursor: pointer;
