@@ -24,7 +24,6 @@ const Taimer = ({
         if (time - 1 <= 0) {
           clearInterval(id);
           chagneStart();
-          // const newAccuracy = ((wrongs * 100) / words.length || 0).toFixed(0);
           onTimerEnd();
           showResult();
         }
@@ -33,7 +32,6 @@ const Taimer = ({
     }
 
     return () => {
-      console.log("hiii");
       clearInterval(id);
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps

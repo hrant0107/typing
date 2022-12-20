@@ -2,9 +2,12 @@ import Game from "./pages/Game";
 import Home from "./pages/Home";
 import { Routes, Route } from "react-router-dom";
 import Header from "./components/Header";
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import React from "react";
+import Layout from "./components/Layout";
 
+export const AppContext = React.createContext({});
+console.log(AppContext);
 function App() {
   const data = JSON.parse(localStorage.getItem("UserData"));
   const [userData, setUserData] = useState(data ? [...data] : []);
@@ -13,37 +16,30 @@ function App() {
     localStorage.setItem("UserData", JSON.stringify(userData));
   }, [userData]);
 
-  const addLevelDataToUserData = (levelData) => {
-    if (userData.some((item) => item.id === levelData.id)) {
-      setUserData(
-        userData.map((item) => {
-          if (item.id === levelData.id) {
-            return levelData;
-          }
-          return item;
-        })
-      );
-    } else {
-      setUserData([...userData, levelData]);
-    }
-  };
+  const addLevelDataToUserData = useCallback(
+    (levelData) => {
+      if (userData.some((item) => item.id === levelData.id)) {
+        setUserData(
+          userData.map((item) => (item.id === levelData.id ? levelData : item))
+        );
+      } else {
+        setUserData([...userData, levelData]);
+      }
+    },
+    [userData]
+  );
 
   return (
-    <div className="App">
-      <Header />
-      <Routes>
-        <Route path="/" element={<Home userData={userData} />} />
-        <Route
-          path="game/:id"
-          element={
-            <Game
-              addLevelDataToUserData={addLevelDataToUserData}
-              userData={userData}
-            />
-          }
-        />
-      </Routes>
-    </div>
+    <AppContext.Provider value={{ userData, addLevelDataToUserData }}>
+      <div className="App">
+        <Routes>
+          <Route path="/" element={<Layout />}>
+            <Route index element={<Home />} />
+            <Route path="game/:id" element={<Game />} />
+          </Route>
+        </Routes>
+      </div>
+    </AppContext.Provider>
   );
 }
 
