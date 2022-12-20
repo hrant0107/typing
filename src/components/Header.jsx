@@ -1,5 +1,5 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, Outlet } from "react-router-dom";
 import HomeIcon from "./assets/HomeIcon";
 
 const Header = () => {
@@ -13,6 +13,7 @@ const Header = () => {
           </div>
         </Link>
       </div>
+      <Outlet />
     </header>
   );
 };

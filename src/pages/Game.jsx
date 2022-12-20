@@ -78,11 +78,9 @@ function Game() {
     (leter, i) => {
       if (value[i] === undefined) {
         return "";
-      }
-      if (value[i] === leter) {
+      } else if (value[i] === leter) {
         return "exact";
-      }
-      if (value[i] !== leter) {
+      } else if (value[i] !== leter) {
         return "wrong";
       }
     },
