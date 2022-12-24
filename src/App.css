@@ -1,3 +1,8 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
 .App {
   height: 100vh;
   position: relative;
@@ -11,6 +16,16 @@ a {
   max-width: 1300px;
   padding: 15px;
 }
+.header__content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.btn__block {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
 
 .header__block {
   display: flex;
@@ -19,6 +34,14 @@ a {
 .header__text {
   font-size: 28px;
   margin-left: 5px;
+}
+.btn {
+  padding: 15px;
+  background-color: rgb(93, 93, 222);
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 16px;
 }
 .wordsContainer {
   max-width: 600px;
@@ -167,10 +190,19 @@ a {
   flex-wrap: wrap;
 }
 
+.allScrinModal {
+  background-color: rgba(193, 164, 164, 0.2);
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  left: 0;
+  top: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 .modal {
-  /* position: absolute; */
-  /* top: 200px;
-  left: calc(50% - 182px); */
   background: #ffff;
   border: 1px solid black;
   opacity: 1;
@@ -197,15 +229,67 @@ a {
   font-size: 22px;
 }
 
-.allScrinModal {
+.loginForm {
   background-color: rgba(193, 164, 164, 0.2);
   position: absolute;
   width: 100%;
   height: 100%;
-
   left: 0;
   top: 0;
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+.form {
+  width: 500px;
+  background: #ffff;
+  border: 1px solid black;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 30px;
+  text-align: center;
+  border: none;
+  border-radius: 8px;
+}
+.loginForm__btn {
+  padding: 8px 20px;
+  background: rgb(93, 93, 222);
+  cursor: pointer;
+  border: none;
+  width: 100%;
+  font-size: 18px;
+}
+.loginForm__btn:disabled {
+  cursor: no-drop;
+}
+.input__block {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: left;
+}
+label {
+  text-align: left;
+  margin-bottom: 5px;
+  width: 100%;
+}
+
+.error__style {
+  width: 90%;
+  color: red;
+  text-align: left;
+}
+
+.input__login {
+  width: 90%;
+  padding: 10px;
+  outline: none;
+  text-decoration: none;
+  /* border: none; */
+  border-bottom: 1px solid black;
 }

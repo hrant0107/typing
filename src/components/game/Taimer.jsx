@@ -1,6 +1,4 @@
-import React, { useEffect, useState } from "react";
-
-let id;
+import React, { useEffect, useRef, useState } from "react";
 
 const Taimer = ({
   setIsStart,
@@ -10,7 +8,7 @@ const Taimer = ({
   onTimerEnd,
 }) => {
   const [taimerTime, setTimerTime] = useState(taimerRef.current);
-
+  const idRef = useRef();
   const chagneStart = () => {
     setIsStart(false);
   };
@@ -19,10 +17,10 @@ const Taimer = ({
     dontShowResult();
     if (taimerTime > 0) {
       let time = taimerTime;
-      id = setInterval(() => {
+      idRef.current = setInterval(() => {
         setTimerTime(time - 1);
         if (time - 1 <= 0) {
-          clearInterval(id);
+          clearInterval(idRef);
           chagneStart();
           onTimerEnd();
           showResult();
@@ -32,7 +30,7 @@ const Taimer = ({
     }
 
     return () => {
-      clearInterval(id);
+      clearInterval(idRef.current);
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);

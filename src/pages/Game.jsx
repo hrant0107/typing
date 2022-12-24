@@ -142,7 +142,7 @@ function Game() {
     <div className="App">
       <Words getClassName={getClassName} words={words} />
       <StartButton onClick={onClickStart} />
-      {isStart ? (
+      {isStart&& (
         <Taimer
           setIsStart={setIsStart}
           dontShowResult={dontShowResult}
@@ -150,7 +150,7 @@ function Game() {
           taimerRef={taimerRef}
           onTimerEnd={onTimerEnd}
         />
-      ) : null}
+      )}
       <TypingInput
         value={value}
         setValue={handleInputChange}
