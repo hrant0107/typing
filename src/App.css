@@ -253,6 +253,7 @@ a {
   text-align: center;
   border: none;
   border-radius: 8px;
+  margin: 30px auto;
 }
 .loginForm__btn {
   padding: 8px 20px;

@@ -6,8 +6,8 @@ import { useCallback, useEffect, useState } from "react";
 import React from "react";
 import { auth } from "./firebase";
 import { onAuthStateChanged, signOut } from "firebase/auth";
-// import Layout from "./components/Layout";
-
+import LoginForm from "./components/LoginForm";
+import SignUpForm from "./components/SignUpForm";
 export const AppContext = React.createContext({});
 function App() {
   const data = JSON.parse(localStorage.getItem("UserData"));
@@ -52,6 +52,8 @@ function App() {
           <Route path="/" element={<Header />}>
             <Route index element={<Home />} />
             <Route path="game/:id" element={<Game />} />
+            <Route path="login" element={<LoginForm />} />
+            <Route path="signUp" element={<SignUpForm />} />
           </Route>
         </Routes>
       </div>

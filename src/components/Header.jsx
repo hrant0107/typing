@@ -10,9 +10,9 @@ const Header = () => {
   const [loginState, setLoginState] = useState(false);
   const [loginSignUp, setLoginSignUp] = useState(false);
   const { user, logOut } = useContext(AppContext);
-  const onClickLogin = () => {
-    setLoginState(true);
-  };
+  // const onClickLogin = () => {
+  //   setLoginState(true);
+  // };
 
   const onClickSignUp = () => {
     setLoginSignUp(true);
@@ -42,8 +42,8 @@ const Header = () => {
             </div>
           ) : (
             <div className="btn__block">
-              <Button onClick={onClickLogin} text="Log in" />
-              <Button onClick={onClickSignUp} text="Sign up" />
+              <Button text="Log in" link={"login"} />
+              <Button text="Sign up" link={"signUp"} />
             </div>
           )}
         </div>
