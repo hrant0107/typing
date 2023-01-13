@@ -35,7 +35,6 @@ function Game() {
 
   useEffect(() => {
     const prevLevelData = userData.find((item) => item.id === `${id - 1}`);
-    console.log(prevLevelData, id);
     if ((!prevLevelData || prevLevelData.accurancy < 90) && id !== "1") {
       return navigate("/");
     }
@@ -142,7 +141,7 @@ function Game() {
     <div className="App">
       <Words getClassName={getClassName} words={words} />
       <StartButton onClick={onClickStart} />
-      {isStart&& (
+      {isStart && (
         <Taimer
           setIsStart={setIsStart}
           dontShowResult={dontShowResult}

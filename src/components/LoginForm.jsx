@@ -1,18 +1,16 @@
-import React, { useRef, useState } from "react";
+import React, { useContext, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import { auth } from "../firebase";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
+import { AppContext } from "../App";
 
-const LoginForm = ({ onCloseLogin, link }) => {
+const LoginForm = () => {
   const navigate = useNavigate();
   const [messageError, setMessageError] = useState(null);
   const formRef = useRef();
-  // const onClose = (e) => {
-  //   if (!formRef.current.contains(e.target)) {
-  //     onCloseLogin();
-  //   }
-  // };
+
+  const { getData } = useContext(AppContext);
 
   const {
     register,
@@ -23,12 +21,13 @@ const LoginForm = ({ onCloseLogin, link }) => {
   });
   const onSubmit = async (data) => {
     try {
-      console.log(data);
       await signInWithEmailAndPassword(auth, data.email, data.password);
       navigate("/");
       setMessageError(null);
+      getData(data.email);
     } catch (err) {
       setMessageError(data.email);
+      console.log(err.message);
     }
   };
   return (
