@@ -1,4 +1,11 @@
-import { useEffect, useMemo, useRef, useState } from "react";
+import {
+  useCallback,
+  useContext,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 import randomWords from "random-words";
 import "../App.css";
 import TypingInput from "../components/game/TypingInput";
@@ -9,8 +16,10 @@ import Result from "../components/game/Result";
 import { useParams } from "react-router-dom";
 import levels from "../db.json";
 import { useNavigate } from "react-router-dom";
+import { AppContext } from "../App";
 
-function Game({ addLevelDataToUserData, userData }) {
+function Game() {
+  const { userData, addLevelDataToUserData } = useContext(AppContext);
   let { id } = useParams();
   const [data, setData] = useState({});
   const [value, setValue] = useState("");
@@ -23,26 +32,9 @@ function Game({ addLevelDataToUserData, userData }) {
   const taimerRef = useRef({});
 
   const navigate = useNavigate();
-  // const time = data.time;
-
-  // const prevLevelUserData = useMemo(
-  //   () => userData.find((item) => item.prevId === id - 1),
-  //   [userData, id]
-  // );
-  // console.log(prevLevelUserData);
-
-  const accurancy = useMemo(() => {
-    if (countWrongs === 0) {
-      return 0;
-    }
-    const acc = ((countWrongs * 100) / words.length || 0).toFixed(0);
-
-    return acc;
-  }, [countWrongs, words.length]);
 
   useEffect(() => {
     const prevLevelData = userData.find((item) => item.id === `${id - 1}`);
-    console.log(prevLevelData, id);
     if ((!prevLevelData || prevLevelData.accurancy < 90) && id !== "1") {
       return navigate("/");
     }
@@ -64,28 +56,37 @@ function Game({ addLevelDataToUserData, userData }) {
     }
   }, [data]);
 
-  const updateUserData = (newAccuracy = accurancy) => {
-    addLevelDataToUserData({
-      accurancy: 100 - newAccuracy,
-      lock: true,
-      id: id,
-    });
-  };
+  const accurancy = useMemo(() => {
+    return countWrongs === 0
+      ? 0
+      : ((countWrongs * 100) / words.length || 0).toFixed(0);
+  }, [countWrongs, words.length]);
 
-  const getClassName = (leter, i) => {
-    if (value[i] === undefined) {
-      return "";
-    }
+  const updateUserData = useCallback(
+    (newAccuracy = accurancy) => {
+      addLevelDataToUserData({
+        accurancy: 100 - newAccuracy,
+        lock: true,
+        id: id,
+      });
+    },
+    [accurancy, addLevelDataToUserData, id]
+  );
 
-    if (value[i] === leter) {
-      return "exact";
-    }
-    if (value[i] !== leter) {
-      return "wrong";
-    }
-  };
+  const getClassName = useCallback(
+    (leter, i) => {
+      if (value[i] === undefined) {
+        return "";
+      } else if (value[i] === leter) {
+        return "exact";
+      } else if (value[i] !== leter) {
+        return "wrong";
+      }
+    },
+    [value]
+  );
 
-  const onClickStart = () => {
+  const onClickStart = useCallback(() => {
     if (hasTaimer > 0) {
       setWords(randomWords(data[0].quantity).join(" "));
       setValue("");
@@ -94,24 +95,26 @@ function Game({ addLevelDataToUserData, userData }) {
     setCountWrongs(0);
     setIsStart(true);
     setHasTaimer(hasTaimer + 1);
-
     setTimeout(() => {
       inputRef.current.focus();
     }, 10);
-  };
+  }, [data, hasTaimer]);
 
-  const handleInputChange = (value) => {
-    setValue(value);
-    const wrongs = [...value].filter((item, i) => words[i] !== item).length;
+  const handleInputChange = useCallback(
+    (value) => {
+      setValue(value);
+      const wrongs = [...value].filter((item, i) => words[i] !== item).length;
 
-    setCountWrongs(wrongs);
-    if (value.length >= words.length) {
-      const newAccuracy = ((wrongs * 100) / words.length || 0).toFixed(0);
-      updateUserData(newAccuracy);
-      setIsStart(false);
-      setIsShowResult(true);
-    }
-  };
+      setCountWrongs(wrongs);
+      if (value.length >= words.length) {
+        const newAccuracy = ((wrongs * 100) / words.length || 0).toFixed(0);
+        updateUserData(newAccuracy);
+        setIsStart(false);
+        setIsShowResult(true);
+      }
+    },
+    [updateUserData, words]
+  );
 
   const showResult = () => {
     setIsShowResult(true);
@@ -121,7 +124,7 @@ function Game({ addLevelDataToUserData, userData }) {
     setIsShowResult(false);
   };
 
-  const onTimerEnd = () => {
+  const onTimerEnd = useCallback(() => {
     const lastValue = inputRef.current.value;
     let wrongs = [...lastValue].filter((item, i) => words[i] !== item).length;
 
@@ -132,13 +135,13 @@ function Game({ addLevelDataToUserData, userData }) {
     const newAccuracy = ((wrongs * 100) / words.length || 0).toFixed(0);
     updateUserData(newAccuracy);
     setIsStart(false);
-  };
+  }, [updateUserData, words]);
 
   return (
     <div className="App">
       <Words getClassName={getClassName} words={words} />
       <StartButton onClick={onClickStart} />
-      {isStart ? (
+      {isStart && (
         <Taimer
           setIsStart={setIsStart}
           dontShowResult={dontShowResult}
@@ -146,7 +149,7 @@ function Game({ addLevelDataToUserData, userData }) {
           taimerRef={taimerRef}
           onTimerEnd={onTimerEnd}
         />
-      ) : null}
+      )}
       <TypingInput
         value={value}
         setValue={handleInputChange}
