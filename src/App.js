@@ -19,7 +19,7 @@ import {
 } from "firebase/firestore";
 
 import LoginForm from "./components/LoginForm";
-import SignUpForm from "./components/SignUpForm";
+import RegisterForm from "./components/RegisterForm";
 
 export const AppContext = React.createContext({});
 
@@ -69,12 +69,12 @@ function App() {
         );
 
         if (user) {
-          const c = await getDocs(coll);
-          const a = c.docs.find((item) => {
+          const data = await getDocs(coll);
+          const filtredItem = data.docs.find((item) => {
             return item.data().id === levelData.id;
           });
 
-          const docUpdate = doc(db, user?.email, a.id);
+          const docUpdate = doc(db, user?.email, filtredItem.id);
           await updateDoc(docUpdate, {
             ...levelData,
           });
@@ -99,7 +99,7 @@ function App() {
             <Route index element={<Home />} />
             <Route path="game/:id" element={<Game />} />
             <Route path="login" element={<LoginForm />} />
-            <Route path="signUp" element={<SignUpForm />} />
+            <Route path="signUp" element={<RegisterForm />} />
           </Route>
         </Routes>
       </div>

@@ -4,7 +4,7 @@ import { AppContext } from "../App";
 import HomeIcon from "./assets/HomeIcon";
 import Button from "./Button";
 import LoginForm from "./LoginForm";
-import SignUpForm from "./SignUpForm";
+import RegisterForm from "./RegisterForm";
 
 const Header = () => {
   const [loginState, setLoginState] = useState(false);
@@ -43,13 +43,13 @@ const Header = () => {
           ) : (
             <div className="btn__block">
               <Button text="Log in" link={"login"} />
-              <Button text="Sign up" link={"signUp"} />
+              <Button text="Register" link={"signUp"} />
             </div>
           )}
         </div>
 
         {loginState && <LoginForm onCloseLogin={onCloseLogin} />}
-        {loginSignUp && <SignUpForm onCloseSignUp={onCloseSignUp} />}
+        {loginSignUp && <RegisterForm onCloseSignUp={onCloseSignUp} />}
       </div>
       <Outlet />
     </header>

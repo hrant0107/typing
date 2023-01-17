@@ -4,7 +4,7 @@ import { auth } from "../firebase";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
 
-const SignUpForm = ({ onCloseSignUp }) => {
+const RegisterForm = ({ onCloseSignUp }) => {
   const navigate = useNavigate();
   const formRef = useRef();
   // const onClose = (e) => {
@@ -77,4 +77,4 @@ const SignUpForm = ({ onCloseSignUp }) => {
   );
 };
 
-export default SignUpForm;
+export default RegisterForm;
