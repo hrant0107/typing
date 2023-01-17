@@ -48,10 +48,10 @@ function App() {
 
   useEffect(() => {
     if (!user) {
-      const fetchFirebase = () => {
+      const setItemsLS = () => {
         localStorage.setItem("UserData", JSON.stringify(userData));
       };
-      fetchFirebase();
+      setItemsLS();
     }
   }, [user, userData]);
 
